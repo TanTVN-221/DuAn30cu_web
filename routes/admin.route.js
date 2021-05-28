@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-let {addClass, all} = require("../models/class.model")
+const Class = require("../models/class.model")
+const Student = require("../models/student.model")
 
 router.get("/", checkAuthenticated, async (req, res) => {
-    res.render('admin')
-    // let listClass = (Class.viewAllClass())
-    // console.log(listClass);
-    
+  let listClass = await Class.all()
+
+  res.render('admin', {listClass: listClass})  
 })
 
 router.get("/class/add", checkAuthenticated, (req, res) => {
@@ -18,22 +18,29 @@ router.post("/class", checkAuthenticated, async (req, res) => {
     const classid = req.body.classid
     const classname = req.body.classname
 
-    addClass(classid, classname)
-    // const newClass = new Class({
-    //   classid: classid,
-    //   classname: classname,
-    //   listStudent: []
-    // })
+    Class.addClass(classid, classname)
+    res.redirect("/")
+})
 
-    // newClass.save()
-    // console.log(newClass.viewAll());
+router.get("/class/:classId", checkAuthenticated, async (req, res) => {
+  // console.log(req.params);
+  const classid = req.params.classId
+  const foundClass = await Class.getClassById(classid)
+  // console.log(foundClass);
+  res.render("admin/liststudent.admin.ejs", {classid: classid, foundList: foundClass.liststudent})
+})
 
-    
-    // listData.forEach(element => {
-    //   console.log(element);
-    // });
-    let all1 = await all()
-    console.log(all1);
+router.post("/class/:classId", checkAuthenticated, (req, res) => {
+  const studentname = req.body.studentname
+  const studentphone = req.body.studentphone
+
+  let newStudent = new Student({
+    studentname: studentname,
+    studentphone: studentphone
+  })
+
+  Class.addStudent(req.params.classId, newStudent)
+  res.redirect('back');
 })
 
 function checkAuthenticated(req, res, next) {

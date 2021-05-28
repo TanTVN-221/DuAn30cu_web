@@ -124,7 +124,8 @@
 						<i class="fas fa-tachometer-alt"></i>
 					</div>
 					<span>
-						Quản lí điểm danh & chấm công
+						ĐD & CC
+						<!-- Quản lí điểm danh & chấm công -->
 					</span>
 				</a>
 			</li>
@@ -134,7 +135,8 @@
 						<i class="fas fa-user-graduate"></i>
 					</div>
 					<span>
-						Quản lí lớp học
+						Lớp
+						<!-- Quản lí lớp học -->
 					</span>
 				</a>
 			
@@ -266,26 +268,23 @@
 									<th>Danh sách học viên</th>
 								</tr>
 							</thead>
+							
 							<tbody>
+								<% if (!listClass) { %>
+								<p>Không có lớp để hiển thị</p>
+								<% } else { %>
+								<% for (var i = 0; i< listClass.length; i++) {%>
 								<tr>
-									<td>1</td>
-									<td>5dgoiegndsdogjn</td>
-									<td>AM1</td>
+									<td><%= i + 1 %></td>
+									<td><%= listClass[i].classid %></td>
+									<td><%= listClass[i].classname %></td>
+									<% var href = "/admin/class/" + listClass[i]._id%>
 									<td>
-										<a style="text-decoration: none; font-style: italic;" href="/admin/class/" + "id">>> Xem chi tiết</a>
-									</td>
-									
+										<a style="text-decoration: none; font-style: italic;" href="<%= href %>" > Xem chi tiết</a>
+									</td> 
 								</tr>
-								<tr>
-									<td>2</td>
-									<td>5dgoiegndsdogjn</td>
-									<td>AM1</td>
-									<td>
-										<a style="text-decoration: none; font-style: italic;" href="/admin/class/" + "id">>> Xem chi tiết</a>
-									</td>
-									
-								</tr>
-								
+								<% } %>
+								<% } %>
 							</tbody>
 						</table>
 					</div>

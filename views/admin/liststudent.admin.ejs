@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class</title>
+</head>
+
+<body>
+    <% const add_url = "/admin/class/"+ classid%>
+    <a href="/admin">Back</a>
+    <form action="<%= add_url %>" method="POST">
+        <label for="name">Họ và tên:</label><br>
+        <input type="text" name="studentname"><br>
+        <label for="SDT">SDT:</label><br>
+        <input type="text" name="studentphone"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>ID</th>
+                <th>Tên học viên</th>
+                <th>SDT</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% if (!foundList) { %>
+            <p>Không có danh sách học viên để hiển thị</p>
+            <% } else { %>
+            <% for (var i = 0; i< foundList.length; i++) {%>
+            <tr>
+                <td><%= i + 1 %></td>
+                <td><%= foundList[i]._id %></td>
+                <td><%= foundList[i].studentname %></td>
+                <td><%= foundList[i].studentphone %></td>
+            </tr>
+            <% } %>
+            <% } %>
+        </tbody>
+    </table>
+</body>
+
+</html>

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-const { deleteOne } = require("../models/student.model")
 const Student = require("../models/student.model")
 
 const classSchema = mongoose.Schema({
@@ -11,8 +10,6 @@ const classSchema = mongoose.Schema({
 var Class = mongoose.model("Class", classSchema)
 
 function addClass(classid, classname) {
-
-    var Class = mongoose.model("Class", classSchema)
     const newclass = new Class({
         classid: classid,
         classname: classname,
@@ -27,20 +24,61 @@ function addClass(classid, classname) {
     })
 }
 
-function all () {
-    return new Promise(function(resolve, reject) {
-        Class.find({}, 'classid classname', function(err, found) {
-            if (err) 
+function all() {
+    return new Promise(function (resolve, reject) {
+        Class.find({}, 'classid classname', function (err, found) {
+            if (err)
                 reject(err)
-            else 
+            else
                 resolve(found)
         })
     })
 }
 
+function getClassById(id) {
+    return new Promise(function (resolve, reject) {
+        Class.findById({
+            _id: id
+        }, 'classid classname liststudent', (err, foundClass) => {
+            if (err)
+                reject(err)
+            else {
+                // console.log(foundClass);
+                resolve(foundClass)
+            }
 
+        })
+    })
+
+}
+
+function addStudent(classid, student) {
+
+
+    Class.findById({
+        _id: classid
+    }, 'liststudent', (err, foundClass) => {
+        if (err)
+            console.log(err);
+        else {
+            foundClass.liststudent.push(student)
+            foundClass.save((err) => {
+                if (err)
+                    console.log(err);
+                else {
+                    console.log("Add student successful");
+                }
+            })
+        }
+
+    })
+
+
+}
 
 module.exports = {
     addClass,
-    all
+    all,
+    getClassById,
+    addStudent
 }
