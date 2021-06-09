@@ -16,7 +16,7 @@ router.get("/all", (req, res) => {
         })
 })
 
-router.get("/:user_id", async (req, res) => {
+router.get("/:user_id", checkAuthenticated, async (req, res) => {
     let datenow = (new Date(new Date()).toLocaleString("en-US", {
         timeZone: 'Asia/Ho_Chi_Minh'
     })) //convert UTC to timezone VietNam
@@ -34,7 +34,7 @@ router.get("/:user_id", async (req, res) => {
     })
 })
 
-router.get('/:userId/:timetableId', async (req, res) => {
+router.get('/:userId/:timetableId', checkAuthenticated, async (req, res) => {
     const userId = req.params.userId
     const timetableId = req.params.timetableId
 
@@ -59,7 +59,7 @@ router.get('/:userId/:timetableId', async (req, res) => {
     }
 })
 
-router.post('/:userId/:timetableId/diemdanh', async (req, res) => {
+router.post('/:userId/:timetableId/diemdanh', checkAuthenticated, async (req, res) => {
     const userId = req.params.userId
     const timetableId = req.params.timetableId
 
@@ -69,7 +69,7 @@ router.post('/:userId/:timetableId/diemdanh', async (req, res) => {
     res.redirect('back')
 })
 
-router.post('/:userId/:timetableId/chamcong', async (req, res) => {
+router.post('/:userId/:timetableId/chamcong', checkAuthenticated, async (req, res) => {
     const userId = req.params.userId
     const timetableId = req.params.timetableId
 

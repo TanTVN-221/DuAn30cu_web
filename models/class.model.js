@@ -4,7 +4,7 @@ const Student = require("../models/student.model")
 const classSchema = mongoose.Schema({
     classid: String,
     classname: String,
-    liststudent: [Student.schema]
+    listStudent: [Student.schema]
 })
 
 var Class = mongoose.model("Class", classSchema)
@@ -14,7 +14,7 @@ function addClass(classid, classname) {
     const newclass = new Class({
         classid: classid,
         classname: classname,
-        liststudent: []
+        listStudent: []
     })
     
     newclass
@@ -71,7 +71,7 @@ function getClassById(id) {
     return new Promise(function (resolve, reject) {
         Class.findById({
             _id: id
-        }, 'classid classname liststudent', (err, foundClass) => {
+        }, 'classid classname listStudent', (err, foundClass) => {
             if (err)
                 reject(err)
             else {
@@ -101,11 +101,11 @@ function getListStudentByClassId(classid) {
 function addStudent(classid, student) {
     Class.findById({
         _id: classid
-    }, 'liststudent', (err, foundClass) => {
+    }, 'listStudent', (err, foundClass) => {
         if (err)
             console.log(err);
         else {
-            foundClass.liststudent.push(student)
+            foundClass.listStudent.push(student)
             foundClass
                 .save()
                 .then(result => {
@@ -135,11 +135,11 @@ function updateStudent(classid, studentid, studentname, studentphone) {
         return new Promise((resolve, reject) => {
             Class.updateOne({
                     _id: classid,
-                    "liststudent._id": studentid
+                    "listStudent._id": studentid
                 }, {
                     $set: {
-                        "liststudent.$.studentname": studentname,
-                        "liststudent.$.studentphone": studentphone
+                        "listStudent.$.studentname": studentname,
+                        "listStudent.$.studentphone": studentphone
                     }
                 },
                 (error, doc) => {
@@ -187,7 +187,7 @@ function deleteStudent(classid, studentid) {
                     _id: classid,
                 }, {
                     $pull: {
-                        "liststudent": {
+                        "listStudent": {
                             _id: studentid
                         }
                     }

@@ -57,7 +57,7 @@ router.get("/class/:classId", checkAuthenticated, async (req, res) => {
   const classid = req.params.classId
   const foundClass = await Class.getClassById(classid)
 
-  res.render("admin/liststudent.admin.ejs", {classid: classid, foundList: foundClass.liststudent})
+  res.render("admin/liststudent.admin.ejs", {classid: classid, foundList: foundClass.listStudent})
 })
 
 // Add student to specfic class
@@ -136,7 +136,7 @@ router.get("/timetable/:timetableId", checkAuthenticated, async (req, res) => {
   res.render('admin/detail.timetable.admin.ejs', {timetableId: timetableId, foundList: []})
   }
   else {  
-  res.render('admin/detail.timetable.admin.ejs', {timetableId: timetableId, foundList: list.liststudent})
+  res.render('admin/detail.timetable.admin.ejs', {timetableId: timetableId, foundList: list.listStudent})
 
   }
 })
