@@ -2,34 +2,40 @@ const userModel = require("../models/user.model")
 
 const router = require("express").Router()
 
-module.exports = function(app, passport) {
+module.exports = function (app, passport) {
+
+    // Redirect route login
     app.get("/", (req, res) => {
         res.redirect("/login")
     })
-    
+
+    // Get login
     app.get("/login", checkNotAuthenticated, (req, res) => {
         res.render('login')
     })
 
-    app.get("/register", checkNotAuthenticated,(req, res) => {
+    // Get register
+    app.get("/register", checkNotAuthenticated, (req, res) => {
         res.render('register')
     })
 
+    // Middle route to redirect correct
     app.get("/account", checkAuthenticated, (req, res) => {
-        if (req.user.username === 'admin') {
+        if (req.user.isAdmin === '1') { // Check admin or user to redirect correct
             res.redirect("/admin")
-        }
-        else {
+        } else {
             res.redirect("/user/" + req.user._id)
         }
     })
-    
+
+    // Post Login
     app.post('/login', checkNotAuthenticated, passport.authenticate("local-login", {
-        successRedirect : '/account',
-        failureRedirect : '/login',
-        failureFlash : true
+        successRedirect: '/account',
+        failureRedirect: '/login',
+        failureFlash: true
     }));
 
+    // Post Register
     app.post('/register', checkNotAuthenticated, passport.authenticate('local-signup', {
         successRedirect: '/login', // chuyển hướng tới trang được bảo vệ
         failureRedirect: '/register', // trở lại trang đăng ký nếu có lỗi
@@ -40,20 +46,25 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     })
+
+    app.use(function(req, res) {
+        res.send("404 Not found! \\n Vui long kiem tra lai duong dan! \\n Xin cam on!")
+    })
 }
 
 
+// Check authenticate
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-      return next()
+        return next()
     }
-  
+
     res.redirect('/login')
-  }
-  
-  function checkNotAuthenticated(req, res, next) {
+}
+
+function checkNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-      return res.redirect('/account')
+        return res.redirect('/account')
     }
     next()
-  }
+}

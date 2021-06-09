@@ -2,10 +2,10 @@ const mongoose = require("mongoose")
 const bcrypt = require('bcrypt')
 
 var userSchema = mongoose.Schema({
-    username: String,
+    id: String,
     password: String,
-    name: String
-
+    name: String,
+    isAdmin: String
 })
 
 // methods ======================

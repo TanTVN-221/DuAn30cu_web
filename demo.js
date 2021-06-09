@@ -1,3 +1,3 @@
-
-
-console.log(require("./models/class.model").viewAllClass())
+let date = new Date()
+// date.toISOString()
+console.log(date);

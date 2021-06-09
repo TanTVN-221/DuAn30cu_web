@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Admin Class </title>
+
+    <meta name="viewport"
+        content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <!-- <link rel="icon" type="image/png" href="assets/AT-pro-logo.png"/> -->
+
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> -->
+    <!-- Import lib -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"> -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <!-- End import lib -->
+    <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="\css\timetable.admin.style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js"></script>
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <title>Timetable</title>
+</head>
+
+<body class="overlay-scrollbar">
+    <!-- navbar -->
+    <div class="navbar">
+        <!-- nav left -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link">
+                    <i class="fas fa-bars" onclick="collapseSidebar()"></i>
+                </a>
+            </li>
+
+        </ul>
+
+        <ul class="navbar-nav nav-right">
+            <li class="nav-item mode">
+                <a class="nav-link" href="#" onclick="switchTheme()">
+                    <i class="fas fa-moon dark-icon"></i>
+                    <i class="fas fa-sun light-icon"></i>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+            <li class="nav-item avt-wrapper">
+                <div class="avt dropdown">
+                    <i class="fas fa-user dropdown-toggle" data-toggle="user-menu"></i>
+                    <ul id="user-menu" class="dropdown-menu">
+                        <li class="dropdown-menu-item">
+                            <a class="dropdown-menu-link">
+                                <div>
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+
+                        <li class="dropdown-menu-item">
+                            <a href="/logout" class="dropdown-menu-link">
+                                <div>
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </div>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <!-- end nav right -->
+    </div>
+    <!-- end navbar -->
+    <!-- sidebar -->
+    <div class="sidebar">
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item">
+                <a class="sidebar-nav-link quan-ly-diem-danh-cham-cong" href="/admin/timetable">
+                    <div>
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <span>
+                        ĐD & CC
+                        <!-- Quản lí điểm danh & chấm công -->
+                    </span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="/admin/class" class="sidebar-nav-link active quan-ly-lop-hoc">
+                    <div>
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <span>
+                        Lớp
+                        <!-- Quản lí lớp học -->
+                    </span>
+                </a>
+
+        </ul>
+    </div>
+    <!-- end sidebar -->
+    <!-- main content -->
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-12 col-m-12 col-sm-12">
+
+                <div class="card">
+                    <div class="card-header ">
+                        <h3>
+                            Quản lý điểm danh và chấm công
+                        </h3>
+                        <!-- <i class="fas fa-ellipsis-h"></i> -->
+                    </div>
+
+                    <div class="card-content">
+                        <form class="form-add">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label for="teacher">GV</label>
+                                    </td>
+                                    <td>
+                                        <select name="teacher" class="input-teacher"></select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="class">Class</label>
+                                    </td>
+                                    <td>
+                                        <select name="class" class="input-class"></select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="date">Date</label>
+                                    </td>
+                                    <td>
+                                        <input type="datetime-local" class="input-date" name="date">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        <button class="btn-add">Add</button>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- <input type="text" class="input-classid" name="classid"> -->
+                            <!-- <label for="classname">Classname</label>
+                            <input type="text" class="input-classname" name="classname"> -->
+                        </form>
+                        <div class="ui container">
+
+                            <div class="ui menu">
+                                <div class="header item">Brand</div>
+                                <a class="active item">Link</a>
+                                <a class="item">Link</a>
+                                <div class="ui dropdown item">
+                                    Dropdown
+                                    <i class="dropdown icon"></i>
+                                    <div class="menu">
+                                        <div class="item">Action</div>
+                                        <div class="item">Another Action</div>
+                                        <div class="item">Something else here</div>
+                                        <div class="divider"></div>
+                                        <div class="item">Separated Link</div>
+                                        <div class="divider"></div>
+                                        <div class="item">One more separated link</div>
+                                    </div>
+                                </div>
+                                <div class="right menu">
+                                    <div class="item">
+                                        <div class="ui action left icon input">
+                                            <i class="search icon"></i>
+                                            <input type="text" placeholder="Search">
+                                            <button class="ui button">Submit</button>
+                                        </div>
+                                    </div>
+                                    <a class="item">Link</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="ui container">
+                            <div class="ui grid">
+                                <div class="ui sixteen column">
+                                    <div id="calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card list-calendar">
+                    <div class="card-header ">
+                        <h3>
+                            Quản lý điểm danh và chấm công
+                        </h3>
+                        <!-- <i class="fas fa-ellipsis-h"></i> -->
+                    </div>
+                    <div class="card-content">
+                        <table class="table-calendar">
+                            <tr>
+                                <th>STT</th>
+                                <th>ID Lớp</th>
+                                <th>Tên lớp</th>
+                                <th>ID GV</th>
+                                <th>Tên GV</th>
+                                <th>Date</th>
+                                <th>Danh sách học sinh</th>
+                                <th></th>
+                            </tr>
+                            <tbody class="add-calendar"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end main content -->
+    <!-- import script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="\js\timetable.admin.js"></script>
+
+    <!-- end import script -->
+    <!-- AJAX UPDATE -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.get("/admin/class/all", (data, status) => {
+
+                let listClass = []
+
+                data.forEach(element => {
+                    // console.log(element.classid + " / " + element.classname);
+                    listClass.push(element.classid + " / " + element.classname)
+                });
+
+                let str = ""
+                // console.log(listClass);
+                listClass.forEach((element) => {
+                    str = str.concat("<option>" + element + "</option>")
+                })
+                $('.input-class').html(str)
+            })
+
+            $.get("/user/all", (data, status) => {
+                let str = ""
+
+                data.forEach((element) => {
+                    if (element.id === 'admin') {
+                        return;
+                    }
+                    str = str.concat("<option>" + element.id + " / " + element.name +
+                        "</option>")
+                })
+
+                $('.input-teacher').html(str)
+            })
+
+            // add timetable
+            var btn_add = $(".btn-add")
+            btn_add.click(() => {
+                let Class = $('.input-class').val()
+                let Teacher = $('.input-teacher').val()
+
+
+                if (Class === "") {
+                    alert("Không được bỏ trống Class")
+                    return false
+                }
+
+                if (Teacher === "") {
+                    alert("Không được bỏ trống GV")
+                    return false
+                }
+
+                let classid = Class.split(" / ")[0]
+                let classname = Class.split(" / ")[1]
+
+                let teacherid = Teacher.split(" / ")[0]
+                let teachername = Teacher.split(" / ")[1]
+
+                let date = $('.input-date').val()
+
+                if (!date) {
+                    alert("Không được bỏ trống date")
+                    return false
+                } else {
+                    // date = new Date(new Date(date).toLocaleString("en-US", {timeZone: 'Asia/Ho_Chi_Minh'}))
+                    console.log(date);
+                }
+
+                $.post(window.location.href, {
+                    classid: classid,
+                    classname: classname,
+                    teacherid: teacherid,
+                    teachername: teachername,
+                    date: date
+                }, (data, status) => {
+                    if (status === "success") {
+                        alert("Successful \nAdd timetable")
+                        location.reload()
+                    } else {
+                        alert("Fail")
+                        location.reload()
+                    }
+
+                })
+                return false
+            })
+
+            $.get(window.location.href + "/all", (data, status) => {
+                if (status === "success") {
+                    if (!data) {
+                        alert("Fail")
+                        location.reload()
+                    } else {
+
+                        let dataCalendar = []
+
+                        // Sắp xếp dữ liệu để truyền vào lịch
+                        let tableCalendar = $('.add-calendar')
+                        let i = 0 //STT
+                        let str = ""
+                        data.forEach(element => {
+                            i = i + 1
+
+                            //add list calendar
+                            dataCalendar.push({
+                                title: "\nID lớp: " + element.classid + "\nLớp: " +
+                                    element.classname + " \n GV: " +
+                                    element.teachername,
+                                url: window.location.href + "/" + element._id,
+                                start: new Date(element.date).toLocaleString("en-US", {timeZone: 'Asia/Ho_Chi_Minh'})
+                            })
+                            // console.log(typeof(element.date));
+                            //add list
+
+                            str += ("<tr><td>" + i + "</td><td>" + element
+                                .classid + "</td><td>" + element.classname + "</td><td>" +
+                                element.teacherid + "</td><td>" + element.teachername +
+                                "</td><td>" + new Date(Date.parse(element.date))
+                                .toLocaleString('en-US', {
+                                    timeZone: 'Asia/Ho_Chi_Minh'
+                                }) + "</td><td><a href=\"" + window.location.href + "/" +
+                                element
+                                ._id +
+                                "\">Xem đầy đủ</a></td></tr>"
+                            ) // pha chuyển date không thể nào cồng kềnh hơn :)) 
+                            // element.date là kiểu string. mình chuyển qua dạng Date bằng Date.parse sẽ thành dãy số. VD: "2020-11-21" -> 1605916800000
+                            // sau đó chuyển sang date format thành kiểu thời gian của 'en-GB' có thể tham khảo một số định dạng khác Date.format 
+
+                        });
+
+                        //add list
+                        if (tableCalendar.html() === "")
+                            tableCalendar.html(str)
+
+                       
+
+                        //add calendar
+                        $('#calendar').fullCalendar({
+                            header: {
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'month,basicWeek,basicDay'
+                            },
+                            defaultDate: Date.now(),
+                            navLinks: true, // can click day/week names to navigate views
+                            editable: true,
+                            eventLimit: true, // allow "more" link when too many events
+                            selectable: true,
+                            dayMaxEvents: true,
+                            events: dataCalendar
+                        });
+                    }
+                } else {
+                    alert("Fail")
+                    location.reload()
+                }
+                return false
+            })
+
+
+        });
+    </script>
+
+
+</body>
+
+</html>

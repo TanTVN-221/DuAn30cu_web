@@ -10,9 +10,12 @@
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<!-- End import lib -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="css/admin.style.css">
+
+	<link rel="stylesheet" type="text/css" href="/css/user.style.css">
 </head>
 <body class="overlay-scrollbar">
 	<!-- navbar -->
@@ -38,17 +41,17 @@
 		<!-- end form -->
 		<!-- nav right -->
 		<ul class="navbar-nav nav-right">
-			<li class="nav-item mode">
+			<!-- <li class="nav-item mode">
 				<a class="nav-link" href="#" onclick="switchTheme()">
 					<i class="fas fa-moon dark-icon"></i>
 					<i class="fas fa-sun light-icon"></i>
 				</a>
 			</li>
 			<li class="nav-item dropdown">
-				<!-- <a class="nav-link">
+				<a class="nav-link">
 					<i class="fas fa-bell dropdown-toggle" data-toggle="notification-menu"></i>
 					<span class="navbar-badge">15</span>
-				</a> -->
+				</a>
 				<ul id="notification-menu" class="dropdown-menu notification-menu">
 					<div class="dropdown-menu-header">
 						<span>
@@ -231,11 +234,11 @@
 						</span>
 					</div>
 				</ul>
-			</li>
+			</li> -->
 			<li class="nav-item avt-wrapper">
 				<div class="avt dropdown">
 
-					<!-- <img src="assets/tuat.jpg" alt="User image" class="dropdown-toggle" data-toggle="user-menu"> -->
+					<i class="fas fa-user dropdown-toggle" data-toggle="user-menu"></i>
 					<ul id="user-menu" class="dropdown-menu">
 						<li  class="dropdown-menu-item">
 							<a class="dropdown-menu-link">
@@ -245,32 +248,9 @@
 								<span>Profile</span>
 							</a>
 						</li>
-						<li class="dropdown-menu-item">
-							<a href="#" class="dropdown-menu-link">
-								<div>
-									<i class="fas fa-cog"></i>
-								</div>
-								<span>Settings</span>
-							</a>
-						</li>
+						
 						<li  class="dropdown-menu-item">
-							<a href="#" class="dropdown-menu-link">
-								<div>
-									<i class="far fa-credit-card"></i>
-								</div>
-								<span>Payments</span>
-							</a>
-						</li>
-						<li  class="dropdown-menu-item">
-							<a href="#" class="dropdown-menu-link">
-								<div>
-									<i class="fas fa-spinner"></i>
-								</div>
-								<span>Projects</span>
-							</a>
-						</li>
-						<li  class="dropdown-menu-item">
-							<a href="#" class="dropdown-menu-link">
+							<a href="/logout" class="dropdown-menu-link">
 								<div>
 									<i class="fas fa-sign-out-alt"></i>
 								</div>
@@ -288,7 +268,7 @@
 	<div class="sidebar">
 		<ul class="sidebar-nav">
 			<li class="sidebar-nav-item">
-				<a href="#" class="sidebar-nav-link">
+				<a href="/" class="sidebar-nav-link">
 					<div>
 						<i class="fas fa-tachometer-alt"></i>
 					</div>
@@ -297,7 +277,7 @@
 					</span>
 				</a>
 			</li>
-			<li class="sidebar-nav-item">
+			<!-- <li class="sidebar-nav-item">
 				<a href="#" class="sidebar-nav-link active">
 					<div>
 						<i class="fab fa-accusoft"></i>
@@ -376,7 +356,7 @@
 					</div>
 					<span>Pellentesque</span>
 				</a>
-			</li>
+			</li> -->
 		</ul>
 	</div>
 	<!-- end sidebar -->
@@ -425,94 +405,40 @@
 				<div class="card">
 					<div class="card-header">
 						<h3>
-							Table
+							Danh sach lop hoc
 						</h3>
 						<!-- <i class="fas fa-ellipsis-h"></i> -->
 					</div>
 					<div class="card-content">
+						<!-- <input type="datetime-local" name="date" class="input-date"> -->
 						<table>
 							<thead>
 								<tr>
-									<th>#</th>
-									<th>Project</th>
-									<th>Manager</th>
-									<th>Status</th>
-									<th>Due date</th>
+									<th>STT</th>
+									<th>ID lớp</th>
+									<th>Tên lớp</th>
+									<th>ID GV</th>
+									<th>Tên GV</th>
+									<th>Date</th>
+									<th>Danh sách học viên</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>1</td>
-									<td>React</td>
-									<td>Tran Anh Tuat</td>
-									<td>
-										<span class="dot">
-											<i class="bg-success"></i>
-											Completed
-										</span>
-									</td>
-									<td>17/07/2020</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>Vue</td>
-									<td>Bui Nhu Sang</td>
-									<td>
-										<span class="dot">
-											<i class="bg-warning"></i>
-											In progress
-										</span>
-									</td>
-									<td>18/07/2020</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>Laravel</td>
-									<td>Phan Nhat Truong</td>
-									<td>
-										<span class="dot">
-											<i class="bg-warning"></i>
-											In progress
-										</span>
-									</td>
-									<td>17/07/2020</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td>Django</td>
-									<td>Le Anh Tuan</td>
-									<td>
-										<span class="dot">
-											<i class="bg-danger"></i>
-											Delayed
-										</span>
-									</td>
-									<td>07/07/2020</td>
-								</tr>
-								<tr>
-									<td>5</td>
-									<td>MEAN</td>
-									<td>John Evan</td>
-									<td>
-										<span class="dot">
-											<i class="bg-primary"></i>
-											Pending
-										</span>
-									</td>
-									<td>20/08/2020</td>
-								</tr>
-								<tr>
-									<td>6</td>
-									<td>MERN</td>
-									<td>Robert</td>
-									<td>
-										<span class="dot">
-											<i class="bg-primary"></i>
-											Pending
-										</span>
-									</td>
-									<td>20/08/2020</td>
-								</tr>
+								<% let i = 1; listTimetable.forEach((element) => { %>
+									<tr>
+										<td><%= i %></td>
+										<td><%= element.classid %></td>
+										<td><%= element.classname %></td>
+										<td><%= element.teacherid %></td>
+										<td><%= element.teachername %></td>
+										<% let date = new Date(Date.parse(element.date)).toLocaleString('en-US', {
+											timeZone: 'Asia/Ho_Chi_Minh'
+										}) %>
+										<td><%= date %></td>
+										<%  let link = "/user/" + teacherId + "/" + element._id; i++%>
+										<td><a href=" <%= link %> " class="link-liststudent">Xem thêm</a></td>
+									</tr>
+								<% }) %>
 							</tbody>
 						</table>
 					</div>
@@ -585,7 +511,13 @@
 	<!-- end main content -->
 	<!-- import script -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-	<script src="js/admin.js"></script>
+	<script src="/js/user.js"></script>
+	<script type="text/javascript">
+		$(document).ready(() => {
+			// ============================ FIND BY DATE AND IDGV =============================
+			
+		})
+	</script>
 	<!-- end import script -->
 </body>
 </html>

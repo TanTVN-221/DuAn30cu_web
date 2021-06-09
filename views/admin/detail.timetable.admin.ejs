@@ -15,16 +15,16 @@
 </head>
 
 <body>
-    <% let add_url = "/admin/class/"+ classid %>
-    <a href="/admin/class">Back</a>
-    <!-- <form action="<%= add_url %>" method="POST"> -->
-        <br>
-        <label for="name">Họ và tên:</label><br>
-        <input type="text" name="studentname" class="input-studentname-add"><br>
-        <label for="SDT">SDT:</label><br>
-        <input type="text" name="studentphone" class="input-studentphone-add"><br><br>
-        <button type="submit" class="<%= classid %> btn-add"
-            style="display: block;">Add</button>
+
+    <a href="/admin/timetable">Back</a>
+
+    <br>
+    <label for="name">Họ và tên:</label><br>
+    <input type="text" name="studentname" class="input-studentname-add"><br>
+    <label for="SDT">SDT:</label><br>
+    <input type="text" name="studentphone" class="input-studentphone-add"><br><br>
+    <button type="submit" class="<%= timetableId %> btn-add" style="display: block;">Add</button>
+    <button  class="<%= timetableId %> btn-delete-timetable" style="display: block;">Delete timetable</button>
     <!-- </form> -->
     <table>
         <thead>
@@ -33,6 +33,7 @@
                 <th>ID</th>
                 <th>Tên học viên</th>
                 <th>SDT</th>
+                <th>Có mặt</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -45,12 +46,19 @@
             <% } else { %>
             <% for (var i = 0; i< foundList.length; i++) {%>
             <tr>
-                <%const update_url = add_url + "/update"%>
-                <!-- <form action="<%=update_url%>" method="POST"> -->
+
                 <td><%= i + 1 %></td>
                 <td class="<%= foundList[i]._id %> studentid"><%= foundList[i]._id %></td>
                 <td class="<%= foundList[i]._id %> input_studentname"><%= foundList[i].studentname %></td>
                 <td class="<%= foundList[i]._id %> input_studentphone"><%= foundList[i].studentphone %></td>
+                <td>
+                    <% if (foundList[i].isPresent === 'false') {%>
+                    <input type="checkbox" class="<%= foundList[i]._id %> input-isPresent" disabled="disabled">
+                    <%} else {%>
+                    <input type="checkbox" class="<%= foundList[i]._id %> input-isPresent" checked="checked"
+                        disabled="disabled">
+                    <% } %>
+                </td>
                 <td>
                     <a class="btn btn-primary btn-sm btn-update <%= foundList[i]._id %>" href="javascript:;"
                         role="button">
@@ -76,14 +84,18 @@
     <script src="\js\liststudent.admin.js"></script>
     <!-- AJAX UPDATE -->
     <script type="text/javascript">
+
         $(document).ready(function () {
+            // menu autocomplete classid
+
+
 
             // ============================ ADD STUDENT ============================
             var add = $('.btn-add')
             add.click(() => {
                 var studentname = $('.input-studentname-add').val()
                 var studentphone = $('.input-studentphone-add').val()
-                
+
                 // Check studentname is ""
                 if (studentname == '') {
                     alert('Vui lòng nhập tên');
@@ -134,8 +146,10 @@
                     studentname: studentname,
                     studentphone: studentphone
                 }, function () {
-                    document.getElementsByClassName(studentid + " btn-save")[0].style.display = "none"
-                    document.getElementsByClassName(studentid + " btn-cancel")[0].style.display = "none"
+                    document.getElementsByClassName(studentid + " btn-save")[0].style.display =
+                        "none"
+                    document.getElementsByClassName(studentid + " btn-cancel")[0].style
+                        .display = "none"
                     alert("Update student id#" + studentid + "\nStudent name: " + studentname +
                         "\nStudent phone: " + studentphone)
                     location.reload();
@@ -146,7 +160,7 @@
             var btn_delete = $("a.btn-delete");
             btn_delete.click(() => {
                 var studentid = $(this).attr('activeElement').classList[4]
-                
+
                 var studentname = $("." + studentid + ".input_studentname").html();
                 var studentphone = $("." + studentid + ".input_studentphone").html();
 
@@ -162,7 +176,25 @@
                     })
                     return false;
                 } else {
-                   
+
+                }
+                return false
+            })
+
+            // ========================== DELETE TIMETABLE ==============================
+            var btn_delete_timetable = $('.btn-delete-timetable')
+            btn_delete_timetable.click(() => {
+                var timetableId = $(this).attr('activeElement').classList[0]
+                
+                if (confirm("Press OK to confirm delete timetable.\nPress Cancel to cancel delete.")) {
+                    var url = window.location.href;
+                    $.post(url + "/deleteTimetable", {}, function () {
+                        alert("Delete timetable id#" + timetableId)
+                        window.location = "/admin/timetable"
+                    })
+                    return false;
+                } else {
+
                 }
                 return false
             })

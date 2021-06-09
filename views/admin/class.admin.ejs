@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin Class </title>
+
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<!-- <link rel="icon" type="image/png" href="assets/AT-pro-logo.png"/> -->
+
+	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> -->
+	<!-- Import lib -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+	<!-- End import lib -->
+    <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="\css\class.admin.style.css">
+</head>
+<body class="overlay-scrollbar">
+	<!-- navbar -->
+	<div class="navbar">
+		<!-- nav left -->
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link">
+					<i class="fas fa-bars" onclick="collapseSidebar()"></i>
+				</a>
+			</li>
+
+		</ul>
+
+		<ul class="navbar-nav nav-right">
+			<li class="nav-item mode">
+				<a class="nav-link" href="#" onclick="switchTheme()">
+					<i class="fas fa-moon dark-icon"></i>
+					<i class="fas fa-sun light-icon"></i>
+				</a>
+			</li>
+			<li class="nav-item dropdown">
+			<li class="nav-item avt-wrapper">
+				<div class="avt dropdown">
+					<i class="fas fa-user dropdown-toggle" data-toggle="user-menu"></i>
+					<ul id="user-menu" class="dropdown-menu">
+						<li  class="dropdown-menu-item">
+							<a class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-user-tie"></i>
+								</div>
+								<span>Profile</span>
+							</a>
+						</li>
+						
+						<li  class="dropdown-menu-item">
+							<a href="/logout" class="dropdown-menu-link">
+								<div>
+									<i class="fas fa-sign-out-alt"></i>
+								</div>
+								<span>Logout</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+		<!-- end nav right -->
+	</div>
+	<!-- end navbar -->
+	<!-- sidebar -->
+	<div class="sidebar">
+		<ul class="sidebar-nav">
+			<li class="sidebar-nav-item">
+				<a class="sidebar-nav-link quan-ly-diem-danh-cham-cong" href="/admin/timetable">
+					<div>
+						<i class="fas fa-tachometer-alt"></i>
+					</div>
+					<span>
+						ĐD & CC
+						<!-- Quản lí điểm danh & chấm công -->
+					</span>
+				</a>
+			</li>
+			<li class="sidebar-nav-item">
+				<a class="sidebar-nav-link active quan-ly-lop-hoc">
+					<div>
+						<i class="fas fa-user-graduate"></i>
+					</div>
+					<span>
+						Lớp
+						<!-- Quản lí lớp học -->
+					</span>
+				</a>
+			
+		</ul>
+	</div>
+	<!-- end sidebar -->
+	<!-- main content -->
+	<div class="wrapper">
+		<div class="row">
+			<div class="col-12 col-m-12 col-sm-12">
+				
+				<div class="card card-quan-ly-lop-hoc">
+					<div class="card-header ">
+						<h3>
+							Quản lý lớp học
+						</h3>
+						<!-- <i class="fas fa-ellipsis-h"></i> -->
+					</div>
+					<a  class="btn-add-class"> <!--href="/admin/class/add"-->
+						<button type="button" class="btn btn-primary">Add</button>
+					</a>
+					<form class="form-add-class">
+						<label for="classid">ID lớp</label><br>
+						<input type="text" name="classid" class="input-classid-add"><br>
+						<label for="classname">Tên lớp</label><br>
+						<input type="text"name="classname" class="input-classname-add"><br><br>
+						<button class="btn-add" style="display: block;">Save</button>
+					  </form> 
+					<div class="card-content">
+						<table>
+							<thead>
+								<tr>
+									<th>STT</th>
+									<th>ID Lớp</th>
+									<th>Tên lớp</th>
+									<th>Danh sách học viên</th>
+								</tr>
+							</thead>
+							
+							<tbody>
+								<% if (!listClass) { %>
+								<p>Không có lớp để hiển thị</p>
+								<% } else { %>
+								<% for (var i = 0; i< listClass.length; i++) {%>
+								<tr>
+									<td><%= i + 1 %></td>
+									<td class="<%= listClass[i]._id %> input-classid"><%= listClass[i].classid %></td>
+									<td class="<%= listClass[i]._id %> input-classname"><%= listClass[i].classname %></td>
+									<% var href = "/admin/class/" + listClass[i]._id%>
+									<td>
+										<a style="text-decoration: none; font-style: italic;" href="<%= href %>" > Xem chi tiết</a>
+									</td> 
+									<td>
+                                        <button class="btn btn-primary btn-sm btn-update <%= listClass[i]._id %>"> 
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm btn-delete <%= listClass[i]._id %>">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </button>
+									</td>
+									<td>	
+										<button type="submit" class="btn-save <%= listClass[i]._id %>">Save</button>
+									</td>
+                                    <td>
+										<button type="submit" class="btn-cancel <%= listClass[i]._id %>">Cancel</button>
+                                    </td>
+								</tr>
+								<% } %>
+								<% } %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end main content -->
+	<!-- import script -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+	<script src="\js\class.admin.js"></script>
+	<!-- end import script -->
+    <!-- AJAX UPDATE -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            // ============================ ADD CLASS ============================
+            var add = $('.btn-add')
+            add.click(() => {
+                var classid = $('.input-classid-add').val()
+                var classname = $('.input-classname-add').val()
+                
+                // Check classid is ""
+                if (classid == '') {
+                    alert('Vui lòng nhập ID lớp');
+                    return false;
+                }
+
+                // Check classname is ""
+                if (classname == '') {
+                    alert('Vui lòng nhập tên lớp');
+                    return false;
+                }
+
+                var url = window.location.href;
+                $.post(url, {
+                    classid: classid,
+                    classname: classname
+                }, function () {
+                    alert("Add class" + "\nClass ID: " + classid +
+                        "\nClass name: " + classname)
+                    location.reload();
+                })
+                return false;
+            })
+
+            // ============================ UPDATE CLASS =========================
+            var save = $(".btn-save");
+
+            save.click(function () {
+                var class_id = $(this).attr('class').split(" ")[1]
+                var classid = $("." + class_id + ".input-classid").html()
+                var classname = $("." + class_id + ".input-classname").html()
+
+
+                // Check studentname is ""
+                if (classid == '') {
+                    alert('Vui lòng nhập ID lớp');
+                    return false;
+                }
+
+                // Check studentphone is ""
+                if (classname == '') {
+                    alert('Vui lòng nhập tên lớp');
+                    return false;
+                }
+
+                var url = window.location.href;
+                $.post(url + "/update", {
+                    class_id: class_id,
+                    classid: classid,
+                    classname: classname
+                }, function () {
+                    document.getElementsByClassName(class_id + " btn-save")[0].style.display = "none"
+                    document.getElementsByClassName(class_id + " btn-cancel")[0].style.display = "none"
+                    alert("Update class id#" + class_id + "\nClass ID: " + classid +
+                        "\nClassname: " + classname)
+                    
+                })
+                return false;
+            });
+
+            // ========================== DELETE STUDENT =============================
+            var btn_delete = $(".btn-delete");
+            btn_delete.click(() => {
+                var class_id = $(this).attr('activeElement').classList[4]
+                var classid = $("." + class_id + ".input-classid").html();
+                var classname = $("." + class_id + ".input-classname").html();
+
+                // Notifi to confirm delete
+                if (confirm("Press OK to confirm delete.\nPress Cancel to cancel delete.")) {
+                    var url = window.location.href;
+                    $.post(url + "/delete", {
+                        class_id: class_id
+                    }, function () {
+                        alert("Delete class id #" + classid + "\nClass name: " + classname)
+                        location.reload()
+                    })
+                    return false;
+                } else {
+                   return false
+                }
+                return false
+            })
+        });
+    </script>
+</body>
+</html>

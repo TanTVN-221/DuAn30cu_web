@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <title>Điểm danh</title>
+</head>
+
+<body>
+    <h2>ID GV: <%= userId %></h2>
+    <button class="btn-save">Save</button>
+    <br>
+    <% if (isPresent === 'true') { %>
+        <p>Đã chấm công</p>
+    <% } else { %>
+        <button class="<%=timetableId%> btn-chamcong">Cham cong</button>
+    <% } %>
+    <br>
+    <br>
+
+    <table>
+        <thead>
+            <th>STT</th>
+            <th>ID học viên</th>
+            <th>Tên học viên</th>
+            <th>SDT</th>
+            <th>Có mặt</th>
+        </thead>
+        <tbody>
+            <% if (!listStudent) { %>
+            <p>Không có danh sách học viên để hiển thị</p>
+            <% } else { %>
+            <% let i = 0; listStudent.forEach((element) => {%>
+            <tr>
+                <td> <%= i %></td>
+                <td> <%= element._id %></td>
+                <td> <%= element.studentname %></td>
+                <td> <%= element.studentphone %></td>
+                <td>
+                    <% if (element.isPresent === 'false') {%>
+                    <input type="checkbox" class="<%= element._id %> input-isPresent" >
+                    <%} else {%>
+                    <input type="checkbox" class="<%= element._id %> input-isPresent" checked="checked">
+                    <% } %>
+                </td>
+            </tr>
+            <% i++; })} %>
+        </tbody>
+    </table>
+    <script>
+        $(document).ready(() => {
+            // ===================== SAVE ======================
+            var btn_save = $('.btn-save')
+            btn_save.click(() => {
+                let listStudent = []
+                let input_diemdanh = $('.input-isPresent').toArray()
+                let studentId = ''
+                let isPresent = ''
+                input_diemdanh.forEach(element => {
+                    studentId = element.attributes["class"].value.split(" ")[0]
+                    isPresent = element.checked
+
+                    listStudent.push({
+                        studentId: studentId,
+                        isPresent: isPresent
+                    })
+                });
+
+                $.post(window.location.href +"/diemdanh", {
+                    listStudent: listStudent
+                }, (data, status) => {
+                    if (status === "success") {
+                        alert("Successful \nDiem danh")
+                        location.reload()
+                    } else {
+                        alert("Fail")
+                        location.reload()
+                    }
+
+                })
+            })
+
+            // ====================== CHAM CONG ==============================
+            var btn_chamcong = $('.btn-chamcong')
+            btn_chamcong.click(() => {
+
+                $.post(window.location.href +"/chamcong", {
+                }, (data, status) => {
+                    if (status === "success") {
+                        alert("Successful \nCham cong")
+                        location.reload()
+                    } else {
+                        alert("Fail")
+                        location.reload()
+                    }
+
+                })
+            })
+        })
+    </script>
+</body>
+</html>

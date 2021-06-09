@@ -15,11 +15,6 @@
 // 	document.querySelector(".card-quan-ly-lop-hoc").style.display = "block"
 // }
 
-var addClass = document.querySelector(".btn-add-class")
-addClass.onclick = function() {
-	document.querySelector(".form-add-class").style.display = "block"
-}
-
 
 const primaryColor = '#4834d4'
 const warningColor = '#f0932b'
