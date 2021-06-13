@@ -350,7 +350,7 @@
                                     element.classname + " \n GV: " +
                                     element.teachername,
                                 url: window.location.href + "/" + element._id,
-                                start: new Date(element.date)
+                                start: new Date(element.date).toLocaleString("en-US", {timeZone: 'Asia/Ho_Chi_Minh'})
                             })
                             // console.log(typeof(element.date));
                             //add list
