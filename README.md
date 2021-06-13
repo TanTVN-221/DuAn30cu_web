@@ -9,6 +9,8 @@ This is a beta version, written by NodeJS, so it will happen error, bug. Please 
 + so on...
 
 Demo: https://duanchamcong.herokuapp.com/
+Demo hướng dẫn: https://youtu.be/9nqLr1ZxSuI
+
 # Account admin:
 username/ID: admin  - password: admin
 # Account user:
