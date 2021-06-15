@@ -53,7 +53,24 @@ module.exports = function (app, passport) {
 }
 
 
-// Check authenticate
+// Check authenticate admin
+function checkAuthenticated_admin(req, res, next) {
+    if (req.isAuthenticated() && req.user.isAdmin !== "1") {
+        return next()
+    }
+
+    res.redirect('/login')
+}
+
+// Check authenticate user
+function checkAuthenticated_user(req, res, next) {
+    if (req.isAuthenticated() && req.user.isAdmin !== "0") {
+        return next()
+    }
+
+    res.redirect('/login')
+}
+
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next()

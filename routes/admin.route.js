@@ -6,7 +6,7 @@ const route = require("./route");
 const Timetable = require('../models/timetable.model')
 
 // Admin
-router.get("/", checkAuthenticated, async (req, res) => {
+router.get("/", checkAuthenticated_admin, async (req, res) => {
   let listClass = await Class.all()
 
   res.render('admin', {listClass: listClass})  
@@ -14,19 +14,19 @@ router.get("/", checkAuthenticated, async (req, res) => {
 
 //============================= CLASS ==============================
 // Class
-router.get("/class", checkAuthenticated, async (req, res) => {
+router.get("/class", checkAuthenticated_admin, async (req, res) => {
   let listClass = await Class.all()
   // console.log(listClass);
 
   res.render('admin/class.admin.ejs', {listClass: listClass})  
 })
 
-router.get("/class/all", checkAuthenticated, async (req, res) => {
+router.get("/class/all", checkAuthenticated_admin, async (req, res) => {
   res.send(await Class.all())
 })
 
 // Add class
-router.post("/class", checkAuthenticated, async (req, res) => {
+router.post("/class", checkAuthenticated_admin, async (req, res) => {
     const classid = req.body.classid
     const classname = req.body.classname
 
@@ -35,7 +35,7 @@ router.post("/class", checkAuthenticated, async (req, res) => {
 })
 
 // Update class
-router.post("/class/update", checkAuthenticated, async (req, res) => {
+router.post("/class/update", checkAuthenticated_admin, async (req, res) => {
   const class_id = req.body.class_id
   const classid = req.body.classid
   const classname = req.body.classname
@@ -45,7 +45,7 @@ router.post("/class/update", checkAuthenticated, async (req, res) => {
 })
 
 // Delete class
-router.post("/class/delete", checkAuthenticated, async (req, res) => {
+router.post("/class/delete", checkAuthenticated_admin, async (req, res) => {
   const class_id = req.body.class_id
 
   await Class.deleteClass(class_id)
@@ -53,7 +53,7 @@ router.post("/class/delete", checkAuthenticated, async (req, res) => {
 })
 
 // List student in class
-router.get("/class/:classId", checkAuthenticated, async (req, res) => {
+router.get("/class/:classId", checkAuthenticated_admin, async (req, res) => {
   const classid = req.params.classId
   const foundClass = await Class.getClassById(classid)
 
@@ -61,7 +61,7 @@ router.get("/class/:classId", checkAuthenticated, async (req, res) => {
 })
 
 // Add student to specfic class
-router.post("/class/:classId", checkAuthenticated, (req, res) => {
+router.post("/class/:classId", checkAuthenticated_admin, (req, res) => {
   const studentname = req.body.studentname
   const studentphone = req.body.studentphone
 
@@ -75,7 +75,7 @@ router.post("/class/:classId", checkAuthenticated, (req, res) => {
 })
 
 // Update student 
-router.post("/class/:classId/update", checkAuthenticated, async (req, res) => {
+router.post("/class/:classId/update", checkAuthenticated_admin, async (req, res) => {
   const classid = req.params.classId
   const studentid = req.body.studentid
   const studentname = req.body.studentname
@@ -86,7 +86,7 @@ router.post("/class/:classId/update", checkAuthenticated, async (req, res) => {
 })
 
 // Delete student
-router.post("/class/:classId/delete", checkAuthenticated, async (req, res) => {
+router.post("/class/:classId/delete", checkAuthenticated_admin, async (req, res) => {
   const classid = req.params.classId
   const studentid = req.body.studentid
   console.log(classid);
@@ -99,14 +99,14 @@ router.post("/class/:classId/delete", checkAuthenticated, async (req, res) => {
 
 // ================================ TIMETABLE =================================
 // Timetable
-router.get("/timetable", checkAuthenticated, async (req, res) => {
+router.get("/timetable", checkAuthenticated_admin, async (req, res) => {
   
 
   res.render("admin/timetable.admin.ejs")
 })
 
 // Add to timetable
-router.post("/timetable", checkAuthenticated, async (req, res) => {
+router.post("/timetable", checkAuthenticated_admin, async (req, res) => {
   
   const teachername = req.body.teachername
   const classname = req.body.classname
@@ -119,7 +119,7 @@ router.post("/timetable", checkAuthenticated, async (req, res) => {
 })
 
 // Get data from database
-router.get("/timetable/all", checkAuthenticated, async (req, res) => {
+router.get("/timetable/all", checkAuthenticated_admin, async (req, res) => {
     res.send(await Timetable.getAll())
 })
 
@@ -128,7 +128,7 @@ router.get("/timetable/getDate", checkNotAuthenticated, async (req, res) => {
   res.send(date)
 })
 
-router.get("/timetable/:timetableId", checkAuthenticated, async (req, res) => {
+router.get("/timetable/:timetableId", checkAuthenticated_admin, async (req, res) => {
   const timetableId = req.params.timetableId
   const list = await Timetable.getListStudentByTimetableId(timetableId)
   // console.log(list.liststudent);
@@ -142,7 +142,7 @@ router.get("/timetable/:timetableId", checkAuthenticated, async (req, res) => {
 })
 
 // Add student to timetable
-router.post("/timetable/:timetableId", checkAuthenticated, async (req, res) => {
+router.post("/timetable/:timetableId", checkAuthenticated_admin, async (req, res) => {
   const timetableId = req.params.timetableId
   const studentname = req.body.studentname
   const studentphone = req.body.studentphone
@@ -151,7 +151,7 @@ router.post("/timetable/:timetableId", checkAuthenticated, async (req, res) => {
   res.redirect('back')
 })
 
-router.post("/timetable/:timetableId/update", checkAuthenticated, async (req, res) => {
+router.post("/timetable/:timetableId/update", checkAuthenticated_admin, async (req, res) => {
   const timetableId = req.params.timetableId
   const studentid = req.body.studentid
   const studentname = req.body.studentname
@@ -165,7 +165,7 @@ router.post("/timetable/:timetableId/update", checkAuthenticated, async (req, re
   res.redirect('back')
 })
 
-router.post("/timetable/:timetableId/delete", checkAuthenticated, async (req, res) => {
+router.post("/timetable/:timetableId/delete", checkAuthenticated_admin, async (req, res) => {
   const timetableId = req.params.timetableId
   const studentid = req.body.studentid
 
@@ -173,7 +173,7 @@ router.post("/timetable/:timetableId/delete", checkAuthenticated, async (req, re
   res.redirect('back')
 })
 
-router.post("/timetable/:timetableId/deleteTimetable", checkAuthenticated, async (req, res) => {
+router.post("/timetable/:timetableId/deleteTimetable", checkAuthenticated_admin, async (req, res) => {
   const timetableId = req.params.timetableId
 
   await Timetable.deleteTimetable(timetableId)
@@ -183,6 +183,25 @@ router.post("/timetable/:timetableId/deleteTimetable", checkAuthenticated, async
 
 
 // ================================ AUTHENTICATE ================================
+// Check authenticate admin
+function checkAuthenticated_admin(req, res, next) {
+  if (req.isAuthenticated() && req.user.isAdmin === "1") {
+      return next()
+  }
+
+  res.redirect('/login')
+}
+
+// Check authenticate user
+function checkAuthenticated_user(req, res, next) {
+  if (req.isAuthenticated() && req.user.isAdmin === "0") {
+      return next()
+  }
+
+  res.redirect('/login')
+}
+
+
 // Check authenticate
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

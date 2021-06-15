@@ -16,7 +16,7 @@ router.get("/all", (req, res) => {
         })
 })
 
-router.get("/:user_id", checkAuthenticated, async (req, res) => {
+router.get("/:user_id", checkAuthenticated_user, async (req, res) => {
     let datenow = (new Date(new Date()).toLocaleString("en-US", {
         timeZone: 'Asia/Ho_Chi_Minh'
     })) //convert UTC to timezone VietNam
@@ -34,7 +34,7 @@ router.get("/:user_id", checkAuthenticated, async (req, res) => {
     })
 })
 
-router.get('/:userId/:timetableId', checkAuthenticated, async (req, res) => {
+router.get('/:userId/:timetableId', checkAuthenticated_user, async (req, res) => {
     const userId = req.params.userId
     const timetableId = req.params.timetableId
 
@@ -59,7 +59,7 @@ router.get('/:userId/:timetableId', checkAuthenticated, async (req, res) => {
     }
 })
 
-router.post('/:userId/:timetableId/diemdanh', checkAuthenticated, async (req, res) => {
+router.post('/:userId/:timetableId/diemdanh', checkAuthenticated_user, async (req, res) => {
     const userId = req.params.userId
     const timetableId = req.params.timetableId
 
@@ -69,7 +69,7 @@ router.post('/:userId/:timetableId/diemdanh', checkAuthenticated, async (req, re
     res.redirect('back')
 })
 
-router.post('/:userId/:timetableId/chamcong', checkAuthenticated, async (req, res) => {
+router.post('/:userId/:timetableId/chamcong', checkAuthenticated_user, async (req, res) => {
     const userId = req.params.userId
     const timetableId = req.params.timetableId
 
@@ -78,6 +78,24 @@ router.post('/:userId/:timetableId/chamcong', checkAuthenticated, async (req, re
 })
 
 // =========================== AUTHENTICATE ========================================
+// Check authenticate admin
+function checkAuthenticated_admin(req, res, next) {
+    if (req.isAuthenticated() && req.user.isAdmin === "1") {
+        return next()
+    }
+  
+    res.redirect('/login')
+  }
+  
+  // Check authenticate user
+  function checkAuthenticated_user(req, res, next) {
+    if (req.isAuthenticated() && req.user.isAdmin === "0") {
+        return next()
+    }
+  
+    res.redirect('/login')
+  }
+
 
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
