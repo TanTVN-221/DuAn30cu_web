@@ -8,8 +8,8 @@ This is a beta version, written by NodeJS, so it will happen error, bug. Please 
 + Web design is not available yet responsive and quite simple.
 + so on...
 
-Demo: https://duanchamcong.herokuapp.com/
-Demo hướng dẫn: https://youtu.be/9nqLr1ZxSuI
+# Demo: https://duanchamcong.herokuapp.com/ hoặc https://duanchamcong-v2.herokuapp.com/admin/class
+# Demo hướng dẫn: https://youtu.be/9nqLr1ZxSuI
 
 # Account admin:
 username/ID: admin  - password: admin
