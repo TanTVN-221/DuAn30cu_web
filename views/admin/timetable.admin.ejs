@@ -28,7 +28,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js"></script>
 
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
     <title>Timetable</title>
@@ -46,6 +46,8 @@
             </li>
 
         </ul>
+
+
 
         <ul class="navbar-nav nav-right">
             <li class="nav-item mode">
@@ -83,11 +85,30 @@
         <!-- end nav right -->
     </div>
     <!-- end navbar -->
+
+    <!-- Notifications -->
+    <div class="alert hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="msg">Error: <span class="notification-alert"></span> !</span>
+        <div class="close-btn-alert">
+            <span class="fas fa-times"></span>
+        </div>
+    </div>
+
+    <div class="success hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="msg">Success: <span class="notification-success"></span> !</span>
+        <div class="close-btn-success">
+            <span class="fas fa-times"></span>
+        </div>
+    </div>
+
+
     <!-- sidebar -->
     <div class="sidebar">
         <ul class="sidebar-nav">
             <li class="sidebar-nav-item">
-                <a class="sidebar-nav-link quan-ly-diem-danh-cham-cong" href="/admin/timetable">
+                <a class="sidebar-nav-link active quan-ly-diem-danh-cham-cong" href="/admin/timetable">
                     <div>
                         <i class="fas fa-tachometer-alt"></i>
                     </div>
@@ -98,7 +119,7 @@
                 </a>
             </li>
             <li class="sidebar-nav-item">
-                <a href="/admin/class" class="sidebar-nav-link active quan-ly-lop-hoc">
+                <a href="/admin/class" class="sidebar-nav-link quan-ly-lop-hoc">
                     <div>
                         <i class="fas fa-user-graduate"></i>
                     </div>
@@ -243,7 +264,9 @@
 
     <!-- end import script -->
     <!-- AJAX UPDATE -->
-    <script type="text/javascript">
+    <script type="module">
+        import {alertNotification, successNotification} from '/js/notification.js'
+        
         $(document).ready(function () {
             $.get("/admin/class/all", (data, status) => {
 
@@ -284,12 +307,12 @@
 
 
                 if (Class === "") {
-                    alert("Không được bỏ trống Class")
+                    alertNotification("Không được bỏ trống Class")
                     return false
                 }
 
                 if (Teacher === "") {
-                    alert("Không được bỏ trống GV")
+                    alertNotification("Không được bỏ trống GV")
                     return false
                 }
 
@@ -302,7 +325,7 @@
                 let date = $('.input-date').val()
 
                 if (!date) {
-                    alert("Không được bỏ trống date")
+                    alertNotification("Không được bỏ trống date")
                     return false
                 } else {
                     // date = new Date(new Date(date).toLocaleString("en-US", {timeZone: 'Asia/Ho_Chi_Minh'}))
@@ -310,29 +333,39 @@
                 }
 
                 $.post(window.location.href, {
-                    classid: classid,
-                    classname: classname,
-                    teacherid: teacherid,
-                    teachername: teachername,
-                    date: date
-                }, (data, status) => {
-                    if (status === "success") {
-                        alert("Successful \nAdd timetable")
-                        location.reload()
-                    } else {
-                        alert("Fail")
-                        location.reload()
-                    }
-
-                })
+                        classid: classid,
+                        classname: classname,
+                        teacherid: teacherid,
+                        teachername: teachername,
+                        date: date
+                    })
+                    .done((msg) => {
+                        successNotification("Add timetable")
+                        // .then((msg) => {
+                            setTimeout(()=> {
+                                location.reload()
+                            } ,2000)
+                        // })
+                        // alert("Successful \nAdd timetable")
+                    })
+                    .fail(function (xhr, status, error) {
+                        // console.log(xhr); 
+                        // console.log(status); // Hiện trạng thái VD: error, success
+                        // console.log(error); //lỗi VD: notfound
+                        alertNotification(error)
+                        // alert("Fail")
+                        
+                    })
                 return false
             })
 
-            $.get(window.location.href + "/all", (data, status) => {
-                if (status === "success") {
-                    if (!data) {
-                        alert("Fail")
-                        location.reload()
+            $.get(window.location.href + "/all")
+            .done(data => {
+                console.log(data);
+                if (data.length === 0) {
+                        alertNotification("Not found data")
+                        // location.reload()
+                        // return false
                     } else {
 
                         let dataCalendar = []
@@ -350,7 +383,9 @@
                                     element.classname + " \n GV: " +
                                     element.teachername,
                                 url: window.location.href + "/" + element._id,
-                                start: new Date(element.date).toLocaleString("en-US", {timeZone: 'Asia/Ho_Chi_Minh'})
+                                start: new Date(element.date).toLocaleString("en-US", {
+                                    timeZone: 'Asia/Ho_Chi_Minh'
+                                })
                             })
                             // console.log(typeof(element.date));
                             //add list
@@ -375,7 +410,7 @@
                         if (tableCalendar.html() === "")
                             tableCalendar.html(str)
 
-                       
+
 
                         //add calendar
                         $('#calendar').fullCalendar({
@@ -393,14 +428,14 @@
                             events: dataCalendar
                         });
                     }
-                } else {
-                    alert("Fail")
-                    location.reload()
-                }
+                // return false
+            })
+            .fail((xhr, status, error) => {
+                alertNotification(error)
+                // location.reload()
                 return false
             })
-
-
+            return false
         });
     </script>
 

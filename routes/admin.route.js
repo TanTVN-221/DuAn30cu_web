@@ -3,13 +3,16 @@ const router = express.Router();
 const Class = require("../models/class.model")
 const Student = require("../models/student.model");
 const route = require("./route");
-const Timetable = require('../models/timetable.model')
+const Timetable = require('../models/timetable.model');
+const User = require("../models/user.model");
 
 // Admin
 router.get("/", checkAuthenticated_admin, async (req, res) => {
   let listClass = await Class.all()
 
-  res.render('admin', {listClass: listClass})  
+  res.render('admin', {
+    listClass: listClass
+  })
 })
 
 //============================= CLASS ==============================
@@ -18,7 +21,9 @@ router.get("/class", checkAuthenticated_admin, async (req, res) => {
   let listClass = await Class.all()
   // console.log(listClass);
 
-  res.render('admin/class.admin.ejs', {listClass: listClass})  
+  res.render('admin/class.admin.ejs', {
+    listClass: listClass
+  })
 })
 
 router.get("/class/all", checkAuthenticated_admin, async (req, res) => {
@@ -27,11 +32,11 @@ router.get("/class/all", checkAuthenticated_admin, async (req, res) => {
 
 // Add class
 router.post("/class", checkAuthenticated_admin, async (req, res) => {
-    const classid = req.body.classid
-    const classname = req.body.classname
+  const classid = req.body.classid
+  const classname = req.body.classname
 
-    Class.addClass(classid, classname)
-    res.redirect("/")
+  Class.addClass(classid, classname)
+  res.redirect("/")
 })
 
 // Update class
@@ -57,7 +62,10 @@ router.get("/class/:classId", checkAuthenticated_admin, async (req, res) => {
   const classid = req.params.classId
   const foundClass = await Class.getClassById(classid)
 
-  res.render("admin/liststudent.admin.ejs", {classid: classid, foundList: foundClass.listStudent})
+  res.render("admin/liststudent.admin.ejs", {
+    classid: classid,
+    foundList: foundClass.listStudent
+  })
 })
 
 // Add student to specfic class
@@ -80,7 +88,7 @@ router.post("/class/:classId/update", checkAuthenticated_admin, async (req, res)
   const studentid = req.body.studentid
   const studentname = req.body.studentname
   const studentphone = req.body.studentphone
-  
+
   await Class.updateStudent(classid, studentid, studentname, studentphone)
   res.redirect('back');
 })
@@ -100,14 +108,14 @@ router.post("/class/:classId/delete", checkAuthenticated_admin, async (req, res)
 // ================================ TIMETABLE =================================
 // Timetable
 router.get("/timetable", checkAuthenticated_admin, async (req, res) => {
-  
+
 
   res.render("admin/timetable.admin.ejs")
 })
 
 // Add to timetable
 router.post("/timetable", checkAuthenticated_admin, async (req, res) => {
-  
+
   const teachername = req.body.teachername
   const classname = req.body.classname
   const classid = req.body.classid
@@ -120,11 +128,13 @@ router.post("/timetable", checkAuthenticated_admin, async (req, res) => {
 
 // Get data from database
 router.get("/timetable/all", checkAuthenticated_admin, async (req, res) => {
-    res.send(await Timetable.getAll())
+  res.send(await Timetable.getAll())
 })
 
 router.get("/timetable/getDate", checkNotAuthenticated, async (req, res) => {
-  const date = { date: new Date(Date.parse(Date.now())) }
+  const date = {
+    date: new Date(Date.parse(Date.now()))
+  }
   res.send(date)
 })
 
@@ -133,16 +143,21 @@ router.get("/timetable/:timetableId", checkAuthenticated_admin, async (req, res)
   const list = await Timetable.getListStudentByTimetableId(timetableId)
   // console.log(list.liststudent);
   if (list === null) {
-  res.render('admin/detail.timetable.admin.ejs', {timetableId: timetableId, foundList: []})
-  }
-  else {  
-  res.render('admin/detail.timetable.admin.ejs', {timetableId: timetableId, foundList: list.listStudent})
+    res.render('admin/detail.timetable.admin.ejs', {
+      timetableId: timetableId,
+      foundList: []
+    })
+  } else {
+    res.render('admin/detail.timetable.admin.ejs', {
+      timetableId: timetableId,
+      foundList: list.listStudent
+    })
 
   }
 })
 
 // Add student to timetable
-router.post("/timetable/:timetableId", checkAuthenticated_admin, async (req, res) => {
+router.post("/timetable/:timetableId/add", checkAuthenticated_admin, async (req, res) => {
   const timetableId = req.params.timetableId
   const studentname = req.body.studentname
   const studentphone = req.body.studentphone
@@ -180,13 +195,27 @@ router.post("/timetable/:timetableId/deleteTimetable", checkAuthenticated_admin,
   res.redirect('back')
 })
 
+// ================================== ACCOUNT ===================================
+router.get("/account", checkAuthenticated_admin, async (req, res) => {
+  User.find()
+  .then(data => {
+    // console.log(data);
+    res.render("admin/account.admin.ejs", {listAccount: data}) 
+  })
+  .catch(err => {
+    console.log(err);
+    res.render("admin/account.admin.ejs", {listAccount: []})
+  })
+
+})
+
 
 
 // ================================ AUTHENTICATE ================================
 // Check authenticate admin
 function checkAuthenticated_admin(req, res, next) {
-  if (req.isAuthenticated() && req.user.isAdmin === "1") {
-      return next()
+  if (req.isAuthenticated() && req.user.role === "admin") {
+    return next()
   }
 
   res.redirect('/login')
@@ -194,8 +223,8 @@ function checkAuthenticated_admin(req, res, next) {
 
 // Check authenticate user
 function checkAuthenticated_user(req, res, next) {
-  if (req.isAuthenticated() && req.user.isAdmin === "0") {
-      return next()
+  if (req.isAuthenticated() && req.user.role === "teacher") {
+    return next()
   }
 
   res.redirect('/login')
@@ -204,17 +233,17 @@ function checkAuthenticated_user(req, res, next) {
 
 // Check authenticate
 function checkAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      return next()
-    }
-    res.redirect('/login')
+  if (req.isAuthenticated()) {
+    return next()
   }
-  
+  res.redirect('/login')
+}
+
 function checkNotAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      return res.redirect('/account')
-    }
-    next()
+  if (req.isAuthenticated()) {
+    return res.redirect('/account')
+  }
+  next()
 }
 
 

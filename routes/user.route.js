@@ -80,7 +80,7 @@ router.post('/:userId/:timetableId/chamcong', checkAuthenticated_user, async (re
 // =========================== AUTHENTICATE ========================================
 // Check authenticate admin
 function checkAuthenticated_admin(req, res, next) {
-    if (req.isAuthenticated() && req.user.isAdmin === "1") {
+    if (req.isAuthenticated() && req.user.role === "admin") {
         return next()
     }
   
@@ -89,7 +89,7 @@ function checkAuthenticated_admin(req, res, next) {
   
   // Check authenticate user
   function checkAuthenticated_user(req, res, next) {
-    if (req.isAuthenticated() && req.user.isAdmin === "0") {
+    if (req.isAuthenticated() && req.user.role === "teacher") {
         return next()
     }
   

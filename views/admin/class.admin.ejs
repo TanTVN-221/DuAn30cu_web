@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Admin Class </title>
 
-	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="viewport"
+		content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 	<!-- <link rel="icon" type="image/png" href="assets/AT-pro-logo.png"/> -->
 
 	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> -->
 	<!-- Import lib -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
-	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+		integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 	<!-- End import lib -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -18,7 +21,26 @@
 
 	<link rel="stylesheet" type="text/css" href="\css\class.admin.style.css">
 </head>
+
 <body class="overlay-scrollbar">
+
+	<!-- Notifications -->
+	<div class="alert hide">
+		<span class="fas fa-exclamation-circle"></span>
+		<span class="msg">Error: <span class="notification-alert"></span> !</span>
+		<div class="close-btn-alert">
+			<span class="fas fa-times"></span>
+		</div>
+	</div>
+
+	<div class="success hide">
+		<span class="fas fa-exclamation-circle"></span>
+		<span class="msg">Success: <span class="notification-success"></span> !</span>
+		<div class="close-btn-success">
+			<span class="fas fa-times"></span>
+		</div>
+	</div>
+
 	<!-- navbar -->
 	<div class="navbar">
 		<!-- nav left -->
@@ -43,7 +65,7 @@
 				<div class="avt dropdown">
 					<i class="fas fa-user dropdown-toggle" data-toggle="user-menu"></i>
 					<ul id="user-menu" class="dropdown-menu">
-						<li  class="dropdown-menu-item">
+						<li class="dropdown-menu-item">
 							<a class="dropdown-menu-link">
 								<div>
 									<i class="fas fa-user-tie"></i>
@@ -51,8 +73,8 @@
 								<span>Profile</span>
 							</a>
 						</li>
-						
-						<li  class="dropdown-menu-item">
+
+						<li class="dropdown-menu-item">
 							<a href="/logout" class="dropdown-menu-link">
 								<div>
 									<i class="fas fa-sign-out-alt"></i>
@@ -91,7 +113,7 @@
 						<!-- Quản lí lớp học -->
 					</span>
 				</a>
-			
+
 		</ul>
 	</div>
 	<!-- end sidebar -->
@@ -99,7 +121,7 @@
 	<div class="wrapper">
 		<div class="row">
 			<div class="col-12 col-m-12 col-sm-12">
-				
+
 				<div class="card card-quan-ly-lop-hoc">
 					<div class="card-header ">
 						<h3>
@@ -107,16 +129,17 @@
 						</h3>
 						<!-- <i class="fas fa-ellipsis-h"></i> -->
 					</div>
-					<a  class="btn-add-class"> <!--href="/admin/class/add"-->
+					<a class="btn-add-class">
+						<!--href="/admin/class/add"-->
 						<button type="button" class="btn btn-primary">Add</button>
 					</a>
 					<form class="form-add-class">
 						<label for="classid">ID lớp</label><br>
 						<input type="text" name="classid" class="input-classid-add"><br>
 						<label for="classname">Tên lớp</label><br>
-						<input type="text"name="classname" class="input-classname-add"><br><br>
+						<input type="text" name="classname" class="input-classname-add"><br><br>
 						<button class="btn-add" style="display: block;">Save</button>
-					  </form> 
+					</form>
 					<div class="card-content">
 						<table>
 							<thead>
@@ -127,7 +150,7 @@
 									<th>Danh sách học viên</th>
 								</tr>
 							</thead>
-							
+
 							<tbody>
 								<% if (!listClass) { %>
 								<p>Không có lớp để hiển thị</p>
@@ -136,25 +159,27 @@
 								<tr>
 									<td><%= i + 1 %></td>
 									<td class="<%= listClass[i]._id %> input-classid"><%= listClass[i].classid %></td>
-									<td class="<%= listClass[i]._id %> input-classname"><%= listClass[i].classname %></td>
+									<td class="<%= listClass[i]._id %> input-classname"><%= listClass[i].classname %>
+									</td>
 									<% var href = "/admin/class/" + listClass[i]._id%>
 									<td>
-										<a style="text-decoration: none; font-style: italic;" href="<%= href %>" > Xem chi tiết</a>
-									</td> 
-									<td>
-                                        <button class="btn btn-primary btn-sm btn-update <%= listClass[i]._id %>"> 
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </button>
-                                        <button class="btn btn-danger btn-sm btn-delete <%= listClass[i]._id %>">
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                        </button>
+										<a style="text-decoration: none; font-style: italic;" href="<%= href %>"> Xem
+											chi tiết</a>
 									</td>
-									<td>	
+									<td>
+										<button class="btn btn-primary btn-sm btn-update <%= listClass[i]._id %>">
+											<i class="fa fa-pencil" aria-hidden="true"></i>
+										</button>
+										<button class="btn btn-danger btn-sm btn-delete <%= listClass[i]._id %>">
+											<i class="fa fa-trash" aria-hidden="true"></i>
+										</button>
+									</td>
+									<td>
 										<button type="submit" class="btn-save <%= listClass[i]._id %>">Save</button>
 									</td>
-                                    <td>
+									<td>
 										<button type="submit" class="btn-cancel <%= listClass[i]._id %>">Cancel</button>
-                                    </td>
+									</td>
 								</tr>
 								<% } %>
 								<% } %>
@@ -170,10 +195,11 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 	<script src="\js\class.admin.js"></script>
 	<!-- end import script -->
-    <!-- AJAX UPDATE -->
-    <script type="text/javascript">
+	<!-- AJAX UPDATE -->
+	<script type="module">
+		import {alertNotification, successNotification} from '/js/notification.js'
         $(document).ready(function () {
-
+	
             // ============================ ADD CLASS ============================
             var add = $('.btn-add')
             add.click(() => {
@@ -182,13 +208,13 @@
                 
                 // Check classid is ""
                 if (classid == '') {
-                    alert('Vui lòng nhập ID lớp');
+                    alertNotification('Vui lòng nhập ID lớp');
                     return false;
                 }
 
                 // Check classname is ""
                 if (classname == '') {
-                    alert('Vui lòng nhập tên lớp');
+                    alertNotification('Vui lòng nhập tên lớp');
                     return false;
                 }
 
@@ -196,11 +222,20 @@
                 $.post(url, {
                     classid: classid,
                     classname: classname
-                }, function () {
-                    alert("Add class" + "\nClass ID: " + classid +
-                        "\nClass name: " + classname)
-                    location.reload();
                 })
+				.done(() => {
+					successNotification("Add class" + "\nClass ID: " + classid +
+                        "\nClass name: " + classname)
+						setTimeout((xhr, status, error)=> {
+                            location.reload()
+                        }, 2000)
+				})
+				.fail((xhr, status, error) => {
+					alertNotification(error)
+					setTimeout((xhr, status, error)=> {
+                            location.reload()
+                        }, 2000)
+				})
                 return false;
             })
 
@@ -215,13 +250,13 @@
 
                 // Check studentname is ""
                 if (classid == '') {
-                    alert('Vui lòng nhập ID lớp');
+                    alertNotification('Vui lòng nhập ID lớp');
                     return false;
                 }
 
                 // Check studentphone is ""
                 if (classname == '') {
-                    alert('Vui lòng nhập tên lớp');
+                    alertNotification('Vui lòng nhập tên lớp');
                     return false;
                 }
 
@@ -230,13 +265,23 @@
                     class_id: class_id,
                     classid: classid,
                     classname: classname
-                }, function () {
+                })
+				.done(() => {
                     document.getElementsByClassName(class_id + " btn-save")[0].style.display = "none"
                     document.getElementsByClassName(class_id + " btn-cancel")[0].style.display = "none"
-                    alert("Update class id#" + class_id + "\nClass ID: " + classid +
+					
+					successNotification("Update class id#" + class_id + "\nClass ID: " + classid +
                         "\nClassname: " + classname)
-                    
-                })
+						setTimeout((xhr, status, error)=> {
+                            location.reload()
+                        }, 2000)
+				})
+				.fail((xhr, status, error) => {
+					alertNotification(error)
+					setTimeout((xhr, status, error)=> {
+                            location.reload()
+                        }, 2000)
+				})
                 return false;
             });
 
@@ -252,17 +297,23 @@
                     var url = window.location.href;
                     $.post(url + "/delete", {
                         class_id: class_id
-                    }, function () {
-                        alert("Delete class id #" + classid + "\nClass name: " + classname)
-                        location.reload()
                     })
-                    return false;
-                } else {
-                   return false
-                }
+					.done(() => {					
+					successNotification("Delete class id #" + classid + "\nClass name: " + classname)
+						setTimeout((xhr, status, error)=> {
+                            location.reload()
+                        }, 2000)
+				})
+				.fail((xhr, status, error) => {
+					alertNotification(error)
+					setTimeout((xhr, status, error)=> {
+                            location.reload()
+                        }, 2000)
+				})
                 return false
-            })
+			}})
         });
     </script>
 </body>
+
 </html>

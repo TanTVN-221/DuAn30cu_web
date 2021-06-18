@@ -5,7 +5,7 @@ var userSchema = mongoose.Schema({
     id: String,
     password: String,
     name: String,
-    isAdmin: String
+    role: String
 })
 
 // methods ======================

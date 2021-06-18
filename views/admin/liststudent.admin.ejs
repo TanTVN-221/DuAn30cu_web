@@ -12,9 +12,29 @@
     <link rel="stylesheet" type="text/css" href="\css\liststudent.admin.css">
     <!-- jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 </head>
 
 <body>
+    <!-- Notifications -->
+    <div class="alert hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="msg">Error: <span class="notification-alert"></span> !</span>
+        <div class="close-btn-alert">
+            <span class="fas fa-times"></span>
+        </div>
+    </div>
+
+    <div class="success hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="msg">Success: <span class="notification-success"></span> !</span>
+        <div class="close-btn-success">
+            <span class="fas fa-times"></span>
+        </div>
+    </div>
+
     <% let add_url = "/admin/class/"+ classid %>
     <a href="/admin/class">Back</a>
     <!-- <form action="<%= add_url %>" method="POST"> -->
@@ -40,7 +60,7 @@
         </thead>
 
         <tbody>
-            <% if (!foundList) { %>
+            <% if (foundList.length === 0) { %>
             <p>Không có danh sách học viên để hiển thị</p>
             <% } else { %>
             <% for (var i = 0; i< foundList.length; i++) {%>
@@ -75,7 +95,9 @@
     </table>
     <script src="\js\liststudent.admin.js"></script>
     <!-- AJAX UPDATE -->
-    <script type="text/javascript">
+    <script type="module">
+        import {alertNotification, successNotification} from '/js/notification.js'
+
         $(document).ready(function () {
 
             // ============================ ADD STUDENT ============================
@@ -86,13 +108,13 @@
                 
                 // Check studentname is ""
                 if (studentname == '') {
-                    alert('Vui lòng nhập tên');
+                    alertNotification('Vui lòng nhập tên');
                     return false;
                 }
 
                 // Check studentphone is ""
                 if (studentphone == '') {
-                    alert('Vui lòng nhập số điện thoại');
+                    alertNotification('Vui lòng nhập số điện thoại');
                     return false;
                 }
 
@@ -100,10 +122,18 @@
                 $.post(url, {
                     studentname: studentname,
                     studentphone: studentphone
-                }, function () {
-                    alert("Add student" + "\nStudent name: " + studentname +
-                        "\nStudent phone: " + studentphone)
-                    location.reload();
+                })
+                .done(function (msg) {
+                    successNotification("Add student: " + studentname + " SDT: " + studentphone)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 2000)
+                })
+                .fail((xhr, status, error) => {
+                    alertNotification(error)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 2000)
                 })
                 return false;
             })
@@ -133,12 +163,23 @@
                     studentid: studentid,
                     studentname: studentname,
                     studentphone: studentphone
-                }, function () {
-                    document.getElementsByClassName(studentid + " btn-save")[0].style.display = "none"
-                    document.getElementsByClassName(studentid + " btn-cancel")[0].style.display = "none"
-                    alert("Update student id#" + studentid + "\nStudent name: " + studentname +
-                        "\nStudent phone: " + studentphone)
-                    location.reload();
+                })
+                .done(() => {
+                    document.getElementsByClassName(studentid + " btn-save")[0].style.display =
+                        "none"
+                    document.getElementsByClassName(studentid + " btn-cancel")[0].style
+                        .display = "none"
+
+                    successNotification("Update student id#" + studentid)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 2000)
+                }) 
+                .fail((xhr, status, error) => {
+                    alertNotification(error)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 2000)
                 })
                 return false;
             });
@@ -155,10 +196,18 @@
                     var url = window.location.href;
                     $.post(url + "/delete", {
                         studentid: studentid
-                    }, function () {
-                        alert("Delete student id#" + studentid + "\nStudent name: " +
-                            studentname + "\nStudent phone: " + studentphone)
-                        location.reload()
+                    })
+                    .done(() => {
+                        successNotification("Delete student id#" + studentid)
+                        setTimeout((xhr, status, error)=> {
+                            location.reload()
+                        }, 2000)
+                    })
+                    .fail(() => {
+                        alertNotification(error)
+                        setTimeout((xhr, status, error)=> {
+                            location.reload()
+                        }, 2000)
                     })
                     return false;
                 } else {

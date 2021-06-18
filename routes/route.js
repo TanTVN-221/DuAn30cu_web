@@ -15,13 +15,13 @@ module.exports = function (app, passport) {
     })
 
     // Get register
-    app.get("/register", checkNotAuthenticated, (req, res) => {
+    app.get("/admin/register", checkNotAuthenticated, (req, res) => {
         res.render('register')
     })
 
     // Middle route to redirect correct
     app.get("/account", checkAuthenticated, (req, res) => {
-        if (req.user.isAdmin === '1') { // Check admin or user to redirect correct
+        if (req.user.role === 'admin') { // Check admin or user to redirect correct
             res.redirect("/admin")
         } else {
             res.redirect("/user/" + req.user._id)
@@ -47,15 +47,15 @@ module.exports = function (app, passport) {
         res.redirect('/');
     })
 
-    app.use(function(req, res) {
-        res.send("404 Not found! \\n Vui long kiem tra lai duong dan! \\n Xin cam on!")
-    })
+    // app.use(function(req, res) {
+    //     res.send("404 Not found! \\n Vui long kiem tra lai duong dan! \\n Xin cam on!")
+    // })
 }
 
 
 // Check authenticate admin
 function checkAuthenticated_admin(req, res, next) {
-    if (req.isAuthenticated() && req.user.isAdmin !== "1") {
+    if (req.isAuthenticated() && req.user.role === "admin") {
         return next()
     }
 
@@ -64,7 +64,7 @@ function checkAuthenticated_admin(req, res, next) {
 
 // Check authenticate user
 function checkAuthenticated_user(req, res, next) {
-    if (req.isAuthenticated() && req.user.isAdmin !== "0") {
+    if (req.isAuthenticated() && req.user.role === "teacher") {
         return next()
     }
 

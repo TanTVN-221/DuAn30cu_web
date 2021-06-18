@@ -1,5 +1,3 @@
-@import '/css/notification.css';
-
 :root {
 	--primary-color: #4834d4;
 	--success-color: #6ab04c;
@@ -570,14 +568,14 @@ table th {
 	right: 0;
 } */
 
-.form-add-class {
+.card-quan-ly-diem-danh-cham-cong {
 	display: none;
 }
 
-.btn-save {
-    display: none;
+.card-quan-ly-lop-hoc {
+	display: none;
 }
 
-.btn-cancel {
-    display: none;
+.form-add-class {
+	display: none;
 }

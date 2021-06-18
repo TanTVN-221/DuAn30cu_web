@@ -13,9 +13,27 @@
     <!-- jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 </head>
 
 <body>
+    <!-- Notifications -->
+    <div class="alert hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="msg">Error: <span class="notification-alert"></span> !</span>
+        <div class="close-btn-alert">
+            <span class="fas fa-times"></span>
+        </div>
+    </div>
+
+    <div class="success hide">
+        <span class="fas fa-exclamation-circle"></span>
+        <span class="msg">Success: <span class="notification-success"></span> !</span>
+        <div class="close-btn-success">
+            <span class="fas fa-times"></span>
+        </div>
+    </div>
 
     <a href="/admin/timetable">Back</a>
 
@@ -84,8 +102,8 @@
     </table>
     <script src="\js\liststudent.admin.js"></script>
     <!-- AJAX UPDATE -->
-    <script type="text/javascript">
-
+    <script type="module">
+        import {alertNotification, successNotification} from '/js/notification.js'
         $(document).ready(function () {
             // menu autocomplete classid
 
@@ -99,25 +117,35 @@
 
                 // Check studentname is ""
                 if (studentname == '') {
-                    alert('Vui lòng nhập tên');
+                    alertNotification('Vui lòng nhập tên');
                     return false;
                 }
 
                 // Check studentphone is ""
                 if (studentphone == '') {
-                    alert('Vui lòng nhập số điện thoại');
+                    alertNotification('Vui lòng nhập số điện thoại');
                     return false;
                 }
 
-                var url = window.location.href;
+                var url = window.location.href +"/add";
                 $.post(url, {
                     studentname: studentname,
                     studentphone: studentphone
-                }, function () {
-                    alert("Add student" + "\nStudent name: " + studentname +
-                        "\nStudent phone: " + studentphone)
-                    location.reload();
+                }) 
+                .done(function (msg) {
+                    successNotification("Add student: " + studentname + " SDT: " + studentphone)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 2000)
                 })
+                .fail((xhr, status, error) => {
+                    alertNotification(error)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 2000)
+                })
+                
+                
                 return false;
             })
 
@@ -131,13 +159,13 @@
 
                 // Check studentname is ""
                 if (studentname == '') {
-                    alert('Vui lòng nhập tên');
+                    alertNotification('Vui lòng nhập tên');
                     return false;
                 }
 
                 // Check studentphone is ""
                 if (studentphone == '') {
-                    alert('Vui lòng nhập số điện thoại');
+                    alertNotification('Vui lòng nhập số điện thoại');
                     return false;
                 }
 
@@ -146,14 +174,23 @@
                     studentid: studentid,
                     studentname: studentname,
                     studentphone: studentphone
-                }, function () {
+                })
+                .done(() => {
                     document.getElementsByClassName(studentid + " btn-save")[0].style.display =
                         "none"
                     document.getElementsByClassName(studentid + " btn-cancel")[0].style
                         .display = "none"
-                    alert("Update student id#" + studentid + "\nStudent name: " + studentname +
-                        "\nStudent phone: " + studentphone)
-                    location.reload();
+
+                    successNotification("Update student id#" + studentid)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 2000)
+                }) 
+                .fail((xhr, status, error) => {
+                    alertNotification(error)
+                    setTimeout(() => {
+                        location.reload()
+                    }, 2000)
                 })
                 return false;
             });
@@ -170,12 +207,21 @@
                     var url = window.location.href;
                     $.post(url + "/delete", {
                         studentid: studentid
-                    }, function () {
-                        alert("Delete student id#" + studentid + "\nStudent name: " +
-                            studentname + "\nStudent phone: " + studentphone)
-                        location.reload()
                     })
-                    return false;
+                    .done(() => {
+                        successNotification("Delete student id#" + studentid)
+                        setTimeout((xhr, status, error)=> {
+                            location.reload()
+                        }, 2000)
+                    })
+                    .fail(() => {
+                        alertNotification(error)
+                        setTimeout((xhr, status, error)=> {
+                            location.reload()
+                        }, 2000)
+                    })
+
+                    return false
                 } else {
 
                 }
@@ -189,10 +235,17 @@
                 
                 if (confirm("Press OK to confirm delete timetable.\nPress Cancel to cancel delete.")) {
                     var url = window.location.href;
-                    $.post(url + "/deleteTimetable", {}, function () {
-                        alert("Delete timetable id#" + timetableId)
-                        window.location = "/admin/timetable"
+                    $.post(url + "/deleteTimetable", {})
+                    .done(() => {
+                        successNotification("Delete timetable id#" + timetableId)
+                        setTimeout(() => {
+                            window.location = "/admin/timetable"
+                        }, 2000)
                     })
+                    .fail((xhr, status, error) => {
+                        alertNotification(error)
+                    })
+    
                     return false;
                 } else {
 
