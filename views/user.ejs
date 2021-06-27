@@ -408,6 +408,8 @@
 							Danh sach lop hoc
 						</h3>
 						<!-- <i class="fas fa-ellipsis-h"></i> -->
+						<input type="date" name="" id="choose-date">
+						<button class="btn-choose-date">Get</button>
 					</div>
 					<div class="card-content">
 						<!-- <input type="datetime-local" name="date" class="input-date"> -->
@@ -424,6 +426,7 @@
 								</tr>
 							</thead>
 							<tbody>
+								<% if (listTimetable !== []) {%>
 								<% let i = 1; listTimetable.forEach((element) => { %>
 									<tr>
 										<td><%= i %></td>
@@ -438,7 +441,7 @@
 										<%  let link = "/user/" + teacherId + "/" + element._id; i++%>
 										<td><a href=" <%= link %> " class="link-liststudent">Xem thêm</a></td>
 									</tr>
-								<% }) %>
+								<% }) } %>
 							</tbody>
 						</table>
 					</div>
@@ -515,7 +518,11 @@
 	<script type="text/javascript">
 		$(document).ready(() => {
 			// ============================ FIND BY DATE AND IDGV =============================
-			
+			$(".btn-choose-date").click(() => {
+				let choose_date = $("#choose-date").val();
+				// console.log(choose_date);
+				location.href = (location.pathname + "?" + $.param({date: choose_date}))
+			})
 		})
 	</script>
 	<!-- end import script -->

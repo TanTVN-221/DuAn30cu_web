@@ -16,8 +16,12 @@
 
 <body>
     <h2>ID GV: <%= userId %></h2>
-    <button class="btn-save">Điểm danh</button>
-    <br>
+    <% if (date === "" || date.getTime() !== (new Date()).getTime()) { %>
+    <button disabled class="btn-save">Điểm danh</button> <br>
+    <% } else { %>
+    <button class="btn-save">Điểm danh</button> <br>
+
+    <% }%>
     <% if (isPresent === 'true') { %>
         <p>Đã chấm công</p>
     <% } else { %>

@@ -42,80 +42,10 @@
 	</div>
 
 	<!-- navbar -->
-	<div class="navbar">
-		<!-- nav left -->
-		<ul class="navbar-nav">
-			<li class="nav-item">
-				<a class="nav-link">
-					<i class="fas fa-bars" onclick="collapseSidebar()"></i>
-				</a>
-			</li>
-
-		</ul>
-
-		<ul class="navbar-nav nav-right">
-			<li class="nav-item mode">
-				<a class="nav-link" href="#" onclick="switchTheme()">
-					<i class="fas fa-moon dark-icon"></i>
-					<i class="fas fa-sun light-icon"></i>
-				</a>
-			</li>
-			<li class="nav-item dropdown">
-			<li class="nav-item avt-wrapper">
-				<div class="avt dropdown">
-					<i class="fas fa-user dropdown-toggle" data-toggle="user-menu"></i>
-					<ul id="user-menu" class="dropdown-menu">
-						<li class="dropdown-menu-item">
-							<a class="dropdown-menu-link">
-								<div>
-									<i class="fas fa-user-tie"></i>
-								</div>
-								<span>Profile</span>
-							</a>
-						</li>
-
-						<li class="dropdown-menu-item">
-							<a href="/logout" class="dropdown-menu-link">
-								<div>
-									<i class="fas fa-sign-out-alt"></i>
-								</div>
-								<span>Logout</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</li>
-		</ul>
-		<!-- end nav right -->
-	</div>
+	<%- include('../partials/navbar.admin.ejs'); -%>
 	<!-- end navbar -->
 	<!-- sidebar -->
-	<div class="sidebar">
-		<ul class="sidebar-nav">
-			<li class="sidebar-nav-item">
-				<a class="sidebar-nav-link quan-ly-diem-danh-cham-cong" href="/admin/timetable">
-					<div>
-						<i class="fas fa-tachometer-alt"></i>
-					</div>
-					<span>
-						ĐD & CC
-						<!-- Quản lí điểm danh & chấm công -->
-					</span>
-				</a>
-			</li>
-			<li class="sidebar-nav-item">
-				<a class="sidebar-nav-link active quan-ly-lop-hoc">
-					<div>
-						<i class="fas fa-user-graduate"></i>
-					</div>
-					<span>
-						Lớp
-						<!-- Quản lí lớp học -->
-					</span>
-				</a>
-
-		</ul>
-	</div>
+	<%- include('../partials/sidebar.admin.ejs'); -%>
 	<!-- end sidebar -->
 	<!-- main content -->
 	<div class="wrapper">

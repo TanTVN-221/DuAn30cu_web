@@ -60,7 +60,7 @@ function getAll() {
     })
 }
 
-function getByDate(date) {
+function getByDate(date, teacherid) {
     let finishDate = new Date(date)
 
     // Tạo ra mốc thời gian cuối cùng trong ngày. Ở đây mình cộng thêm 1 ngày rồi chỉnh cho nó thành 12AM
@@ -79,15 +79,16 @@ function getByDate(date) {
     // finishDate.setMinutes(59)
     // finishDate.setSeconds(59)
 
-    console.log(date);
-    console.log(finishDate);
+    // console.log(date);
+    // console.log(finishDate);
     // console.log(new Date(date));
     return new Promise((resolve, reject) => {
         Timetable.find({
             date: {
                 $gte: new Date(date),
                 $lt: new Date(finishDate)
-            }
+            },
+            teacherid: teacherid
         }, (err, data) => {
             if (err) {
                 reject(err)
@@ -102,7 +103,7 @@ function getListStudentByTimetableId(timetableId) {
     return new Promise((resolve, reject) => {
         Timetable.findOne({
             _id: timetableId
-        }, 'listStudent', (err, data) => {
+        }, 'date listStudent', (err, data) => {
             if (err) {
                 reject(err)
             } else {

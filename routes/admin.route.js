@@ -6,6 +6,10 @@ const route = require("./route");
 const Timetable = require('../models/timetable.model');
 const User = require("../models/user.model");
 
+router.get("/register", checkAuthenticated_admin, async (req, res) => {
+  res.render("register.ejs")
+})
+
 // Admin
 router.get("/", checkAuthenticated_admin, async (req, res) => {
   let listClass = await Class.all()

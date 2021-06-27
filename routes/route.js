@@ -14,11 +14,6 @@ module.exports = function (app, passport) {
         res.render('login')
     })
 
-    // Get register
-    app.get("/admin/register", checkNotAuthenticated, (req, res) => {
-        res.render('register')
-    })
-
     // Middle route to redirect correct
     app.get("/account", checkAuthenticated, (req, res) => {
         if (req.user.role === 'admin') { // Check admin or user to redirect correct
@@ -46,10 +41,6 @@ module.exports = function (app, passport) {
         req.logout();
         res.redirect('/');
     })
-
-    // app.use(function(req, res) {
-    //     res.send("404 Not found! \\n Vui long kiem tra lai duong dan! \\n Xin cam on!")
-    // })
 }
 
 

@@ -4,7 +4,7 @@ const User = require("../models/user.model")
 const Timetable = require("../models/timetable.model")
 
 router.get("/all", (req, res) => {
-    User.find({})
+    User.find({}, 'id name')
         .then((data) => {
             if (!data) {
                 res.status(404).send({
@@ -24,9 +24,25 @@ router.get("/:user_id", checkAuthenticated_user, async (req, res) => {
 
     // console.log(datenow);
 
-    const teacherId = req.params.user_id
+    const teacherId = req.user.id
 
-    let listTimetable = await Timetable.getByDate(datenow)
+    let date = datenow
+
+    if (req.query.date) {
+        date = (new Date(new Date(req.query.date)).toLocaleString("en-US", {
+            timeZone: 'Asia/Ho_Chi_Minh'
+        }))
+    }
+    console.log(date);
+    var listTimetable = []
+    try {
+        listTimetable = await Timetable.getByDate(date, req.user.id) 
+    } catch (error) {
+        console.log(error);
+    }
+
+    if (!listTimetable) listTimetable = []
+
     // console.log(listTimetable);
     res.render("user.ejs", {
         listTimetable: listTimetable,
@@ -40,13 +56,13 @@ router.get('/:userId/:timetableId', checkAuthenticated_user, async (req, res) =>
 
     const list = await Timetable.getListStudentByTimetableId(timetableId)
     const isPresent = await Timetable.getIsPresentByTimetableId(timetableId)
-    console.log(isPresent);
-
+    console.log(list.date);
     if (list === null) {
         res.render("user/timetable.user.ejs", {
             userId: userId,
             timetableId: timetableId,
             isPresent: isPresent.isPresent,
+            date: "",
             listStudent: []
         })
     } else {
@@ -54,6 +70,7 @@ router.get('/:userId/:timetableId', checkAuthenticated_user, async (req, res) =>
             userId: userId,
             timetableId: timetableId,
             isPresent: isPresent.isPresent,
+            date: list.date,
             listStudent: list.listStudent
         })
     }
